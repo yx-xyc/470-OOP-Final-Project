@@ -27,4 +27,7 @@ public class FlightRepository {
     public List<Flight> getAllFlights() {
         return new ArrayList<>(this.flights.values());
     }
+    public void close() throws IOException {
+        this.databaseConnector.writeFlights(new ArrayList<>(this.flights.values()));
+    }
 }
