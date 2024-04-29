@@ -6,8 +6,7 @@ public class Main {
     public static void main(String[] args) throws IOException, ParseException {
         FlightRepository fr = new FlightRepository("src/resources/flights.csv");
         List<Flight> flights = fr.getAllFlights();
-        for (Flight flight : flights) {
-            System.out.println(flight.toCSVRow());
-        }
+        FlightsView flightsView = new FlightsView(flights);
+
     }
 }

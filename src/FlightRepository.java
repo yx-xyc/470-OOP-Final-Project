@@ -20,12 +20,21 @@ public class FlightRepository {
     public void addFlight(Flight flight) {
         this.flights.putIfAbsent(flight.getFlightId(), flight);
     }
-    public void removeFlight(Flight flight) {
-        UUID uuidToRemove = flight.getFlightId();
-        this.flights.remove(uuidToRemove);
+    public void deleteFlight(UUID flightId) {
+        this.flights.remove(flightId);
     }
     public List<Flight> getAllFlights() {
         return new ArrayList<>(this.flights.values());
+    }
+    public List<Flight> getFlightsByIds(List<UUID> flightIds) {
+        List<Flight> flights = new ArrayList<>();
+        for (UUID flightId : flightIds) {
+            Flight flight = this.flights.get(flightId);
+            if (flight != null) {
+                flights.add(flight);
+            }
+        }
+        return flights;
     }
     public void close() throws IOException {
         this.databaseConnector.writeFlights(new ArrayList<>(this.flights.values()));
