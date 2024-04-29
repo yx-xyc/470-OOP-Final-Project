@@ -18,7 +18,7 @@ public class FlightRepository {
         }
     }
     public void addFlight(Flight flight) {
-        this.flights.putIfAbsent(flight.getFlightId(), flight)
+        this.flights.putIfAbsent(flight.getFlightId(), flight);
     }
     public void removeFlight(Flight flight) {
         UUID uuidToRemove = flight.getFlightId();
