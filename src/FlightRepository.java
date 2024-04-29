@@ -27,7 +27,4 @@ public class FlightRepository {
     public List<Flight> getAllFlights() {
         return new ArrayList<>(this.flights.values());
     }
-    public void testPushToMain() {
-
-    }
 }
