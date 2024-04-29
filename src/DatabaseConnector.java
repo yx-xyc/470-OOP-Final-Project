@@ -5,11 +5,9 @@ import java.util.*;
 
 public class DatabaseConnector {
     private Path filePath;
-
     public DatabaseConnector(String filePath) {
         this.filePath = Paths.get(filePath);
     }
-
     public List<Flight> readFlights() throws IOException, ParseException {
         List<Flight> flights = new ArrayList<>();
         List<String> lines = Files.readAllLines(this.filePath);
@@ -19,7 +17,6 @@ public class DatabaseConnector {
         }
         return flights;
     }
-
     public void writeFlights(List<Flight> flights) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         for (Flight flight : flights) {
@@ -27,5 +24,4 @@ public class DatabaseConnector {
         }
         Files.writeString(this.filePath, stringBuilder.toString());
     }
-
 }
