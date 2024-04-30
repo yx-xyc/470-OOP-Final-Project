@@ -2,9 +2,7 @@ import java.text.ParseException;
 import java.util.*;
 
 public class Flight {
-
     private static TimeConverter timeConverter = new TimeConverter();
-
     private UUID flightId;
     private long departureTime;
     private long arrivalTime;
@@ -13,7 +11,6 @@ public class Flight {
     private int occupancy;
     private String arlineId;
     private int remainingTicket;
-
     public Flight(UUID flightId,
                   long departureTime,
                   long arrivalTime,
@@ -47,7 +44,6 @@ public class Flight {
         this.occupancy = occupancy;
         this.remainingTicket = remainingTicket;
     }
-
     public UUID getFlightId() {
         return flightId;
     }
