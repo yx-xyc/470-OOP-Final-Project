@@ -1,15 +1,13 @@
-public abstract class Account {
+public abstract class Account{
 	protected int id;
 	protected String name;
 	protected int age;
 	protected String email;
-	protected static int counter = 0;
 	protected String username;
 	protected String password;
-	
-	public Account(String name, int age, String email, String username, String password) {
-		counter++;
-		this.id = counter;
+
+	public Account(int id, String name, int age, String email, String username, String password) {
+		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.email = email;
@@ -47,6 +45,22 @@ public abstract class Account {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 }
