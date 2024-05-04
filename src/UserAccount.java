@@ -1,21 +1,23 @@
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class UserAccount extends Account implements Cloneable{
 	
-	private ArrayList<UUID> flightIdList;
+
+	private List<UUID> flightList;
 	
 	public UserAccount(int id, String name, int age, String email, String username, String password, ArrayList<UUID> flightIdList) {
 		super(id, name, age, email, username, password);
 		flightIdList = new ArrayList<>(flightIdList);
 	}
 	
-	public ArrayList<UUID> getflightIdList() {
+	public List<UUID> getflightIdList() {
 		return flightIdList;
 	}
 
-	public void setFlightIdList(ArrayList<UUID> flightIdList) {
+	public void setFlightIdList(List<UUID> flightIdList) {
 		this.flightIdList = flightIdList;
 	}
 
@@ -25,6 +27,7 @@ public class UserAccount extends Account implements Cloneable{
 	
 	public void deleteFlight(UUID id) {
 		flightIdList.remove(id);
+
 	}
 	
 	public UserAccount clone() throws CloneNotSupportedException{
@@ -66,4 +69,5 @@ public class UserAccount extends Account implements Cloneable{
         	return new UserAccount(id, name, age, email, username, password, flightList);
 		}
     }
+
 }

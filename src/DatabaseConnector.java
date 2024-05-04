@@ -20,7 +20,7 @@ public class DatabaseConnector {
     public void writeFlights(List<Flight> flights) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         for (Flight flight : flights) {
-            stringBuilder.append(flight.toCSVRow());
+            stringBuilder.append(flight.toCSVRow()).append("\n");
         }
         Files.writeString(this.filePath, stringBuilder.toString());
     }
