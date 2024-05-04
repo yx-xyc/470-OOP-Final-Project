@@ -6,14 +6,14 @@ import java.util.UUID;
 public class UserAccount extends Account implements Cloneable{
 	
 
-	private List<UUID> flightList;
+	private List<UUID> flightIdList;
 	
 	public UserAccount(int id, String name, int age, String email, String username, String password, ArrayList<UUID> flightIdList) {
 		super(id, name, age, email, username, password);
 		flightIdList = new ArrayList<>(flightIdList);
 	}
 	
-	public List<UUID> getflightIdList() {
+	public List<UUID> getFlightIdList() {
 		return flightIdList;
 	}
 
