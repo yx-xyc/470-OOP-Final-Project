@@ -40,7 +40,7 @@ public class AccountRepository {
 
     public void bookFlight(int userId, UUID flightId) throws CloneNotSupportedException{
         UserAccount user = (userAccounts.get(userId)).clone();
-        List<UUID> flightIdList = user.getflightIdList();
+        List<UUID> flightIdList = user.getFlightIdList();
         flightIdList.add(flightId);
         user.setFlightIdList(flightIdList);
         this.userAccounts.put(userId, user);
@@ -48,7 +48,7 @@ public class AccountRepository {
     
     public void cancelFlight(int userId, UUID flightId) throws CloneNotSupportedException{
         UserAccount user = (userAccounts.get(userId)).clone();
-        List<UUID> flightIdList = user.getflightIdList();
+        List<UUID> flightIdList = user.getFlightIdList();
         flightIdList.remove(flightId);
         user.setFlightIdList(flightIdList);
         this.userAccounts.put(userId, user);
@@ -56,7 +56,7 @@ public class AccountRepository {
 
     public List<UUID> getAllFlights(int userId) {
         UserAccount user = userAccounts.get(userId);
-        List<UUID> flightIdList = user.getflightIdList();
+        List<UUID> flightIdList = user.getFlightIdList();
         return flightIdList;
     }
 

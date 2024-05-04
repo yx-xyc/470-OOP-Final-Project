@@ -13,7 +13,7 @@ public class UserAccount extends Account implements Cloneable{
 		this.flightIdList = new ArrayList<>(flightIdList);
 	}
 	
-	public List<UUID> getflightIdList() {
+	public List<UUID> getFlightIdList() {
 		return flightIdList;
 	}
 
