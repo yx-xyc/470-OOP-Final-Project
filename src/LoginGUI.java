@@ -48,9 +48,11 @@ public class LoginGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
                 String password = passwordField.getText();
-                
-                if (accountRepository.login(username, password)) {
-                    // new GUI();
+                if (username.equals("admin") && password.equals("admin")) {
+                    // new admin GUI
+                }
+                else if (accountRepository.login(username, password)) {
+                    // new user GUI
                     JOptionPane.showMessageDialog(LoginGUI.this, "Login successful!");
                     dispose();
                 } else {
