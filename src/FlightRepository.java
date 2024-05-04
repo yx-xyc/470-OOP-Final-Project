@@ -26,7 +26,24 @@ public class FlightRepository {
     public List<Flight> getAllFlights() {
         return new ArrayList<>(this.flights.values());
     }
-    public void testPushToMain() {
-
+    public List<Flight> getFlightsByUUIDs(List<UUID> flightUUIDs) {
+        List<Flight> flights = new ArrayList<>();
+        for (Flight flight : this.flights.values()) {
+            if (flightUUIDs.contains(flight.getFlightId())) {
+                flights.add(flight);
+            }
+        }
+        return flights;
+    }
+    public void bookFlight(UUID flightId) {
+        Flight flight = this.flights.get(flightId);
+        flight.setRemainingTicket(flight.getRemainingTicket() - 1);
+    }
+    public void cancelFlight(UUID flightId) {
+        Flight flight = this.flights.get(flightId);
+        flight.setRemainingTicket(flight.getRemainingTicket() + 1);
+    }
+    public void saveFlightRepository() throws IOException {
+        databaseConnector.writeFlights(getAllFlights());
     }
 }
