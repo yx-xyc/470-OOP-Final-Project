@@ -12,6 +12,7 @@ public class UserDatabaseConnector {
         List<UserAccount> users = new ArrayList<>();
         List<String> lines = Files.readAllLines(this.filePath);
         for (String line : lines) {
+            System.out.println(line);
             UserAccount user = UserAccount.fromCSVRow(line);
             users.add(user);
         }
@@ -20,7 +21,7 @@ public class UserDatabaseConnector {
     public void writeUsers(List<UserAccount> users) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         for (UserAccount user : users) {
-            stringBuilder.append(user.toCSVRow());
+            stringBuilder.append(user.toCSVRow()).append("\n");
         }
         Files.writeString(this.filePath, stringBuilder.toString());
     }

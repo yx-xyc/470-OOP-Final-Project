@@ -16,7 +16,7 @@ public class UserAccount extends Account implements Cloneable{
 		return flightIdList;
 	}
 
-	public void setFlightIdList(ArrayList<UUID> flightIdList) {
+	public void setFlightIdList(List<UUID> flightIdList) {
 		this.flightIdList = flightIdList;
 	}
 
