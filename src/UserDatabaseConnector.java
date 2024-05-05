@@ -12,7 +12,6 @@ public class UserDatabaseConnector {
         List<UserAccount> users = new ArrayList<>();
         List<String> lines = Files.readAllLines(this.filePath);
         for (String line : lines) {
-            System.out.println(line);
             UserAccount user = UserAccount.fromCSVRow(line);
             users.add(user);
         }

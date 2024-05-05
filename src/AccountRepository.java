@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class AccountRepository {
     private UserDatabaseConnector userDatabaseConnector;
-    public Map<Integer, UserAccount> userAccounts;
+    private Map<Integer, UserAccount> userAccounts;
     public AccountRepository(String path) throws IOException, ParseException {
         this.userDatabaseConnector = new UserDatabaseConnector(path);
         this.userAccounts = new HashMap<>();
