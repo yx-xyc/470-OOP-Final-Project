@@ -1,10 +1,6 @@
 import javax.swing.*;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) throws IOException, ParseException {
@@ -20,8 +16,7 @@ public class Main {
 
                         } else {
                             UserAccount userAccount = ar.getUserAccount(username, password);
-                            FlightsView flightsView = new FlightsView(userAccount, fr);
-
+                            FlightsGUI flightsView = new FlightsGUI(userAccount.getId(), fr, ar);
                         }
                     }
                 });
