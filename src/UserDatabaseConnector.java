@@ -20,7 +20,7 @@ public class UserDatabaseConnector {
     public void writeUsers(List<UserAccount> users) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         for (UserAccount user : users) {
-            stringBuilder.append(user.toCSVRow());
+            stringBuilder.append(user.toCSVRow()).append("\n");
         }
         Files.writeString(this.filePath, stringBuilder.toString());
     }

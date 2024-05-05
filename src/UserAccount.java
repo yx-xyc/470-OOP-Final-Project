@@ -5,19 +5,18 @@ import java.util.UUID;
 
 public class UserAccount extends Account implements Cloneable{
 	
+	private List<UUID> flightIdList;
 
-	private ArrayList<UUID> flightIdList;
-	
-	public UserAccount(int id, String name, int age, String email, String username, String password, ArrayList<UUID> flightIdList) {
+	public UserAccount(int id, String name, int age, String email, String username, String password, List<UUID> flightIdList) {
 		super(id, name, age, email, username, password);
-		flightIdList = new ArrayList<>(flightIdList);
+		this.flightIdList = new ArrayList<>(flightIdList);
 	}
 	
-	public ArrayList<UUID> getFlightIdList() {
+	public List<UUID> getFlightIdList() {
 		return flightIdList;
 	}
 
-	public void setFlightIdList(ArrayList<UUID> flightIdList) {
+	public void setFlightIdList(List<UUID> flightIdList) {
 		this.flightIdList = flightIdList;
 	}
 
@@ -27,7 +26,6 @@ public class UserAccount extends Account implements Cloneable{
 	
 	public void deleteFlight(UUID id) {
 		flightIdList.remove(id);
-
 	}
 	
 	public UserAccount clone() throws CloneNotSupportedException{

@@ -21,16 +21,26 @@ public class AccountRepository {
     public boolean login(String username, String password) {
         for (Integer id : userAccounts.keySet()) {
             UserAccount user = userAccounts.get(id);
-            if (user.getUsername() == username && user.getPassword() == password) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 return true;
             }
         }
         return false;
     }
 
+    public UserAccount getUserAccount(String username, String password) {
+        for (Integer id : userAccounts.keySet()) {
+            UserAccount user = userAccounts.get(id);
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public void bookFlight(int userId, UUID flightId) throws CloneNotSupportedException{
         UserAccount user = (userAccounts.get(userId)).clone();
-        ArrayList<UUID> flightIdList = user.getFlightIdList();
+        List<UUID> flightIdList = user.getFlightIdList();
         flightIdList.add(flightId);
         user.setFlightIdList(flightIdList);
         this.userAccounts.put(userId, user);
@@ -38,7 +48,7 @@ public class AccountRepository {
     
     public void cancelFlight(int userId, UUID flightId) throws CloneNotSupportedException{
         UserAccount user = (userAccounts.get(userId)).clone();
-        ArrayList<UUID> flightIdList = user.getFlightIdList();
+        List<UUID> flightIdList = user.getFlightIdList();
         flightIdList.remove(flightId);
         user.setFlightIdList(flightIdList);
         this.userAccounts.put(userId, user);
@@ -46,7 +56,7 @@ public class AccountRepository {
 
     public List<UUID> getAllFlights(int userId) {
         UserAccount user = userAccounts.get(userId);
-        ArrayList<UUID> flightIdList = user.getFlightIdList();
+        List<UUID> flightIdList = user.getFlightIdList();
         return flightIdList;
     }
 
