@@ -55,6 +55,7 @@ public class LoginGUI extends JFrame {
                 if (username.equals("admin") && password.equals("admin")) {
                     // new admin GUI
                     loginCallback.onLoginSuccess(username, password, true); // Notify success
+                    dispose();
                 }
                 else if (accountRepository.login(username, password)) {
                     // new user GUI
