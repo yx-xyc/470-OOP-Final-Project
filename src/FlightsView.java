@@ -30,7 +30,11 @@ public class FlightsView extends JFrame {
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         table.getColumnModel().getColumn(8).setCellRenderer(new ButtonRenderer());
+<<<<<<< HEAD
         table.getColumnModel().getColumn(8j).setCellEditor(new ButtonEditor(new JCheckBox()));
+=======
+        table.getColumnModel().getColumn(8).setCellEditor(new ButtonEditor(new JCheckBox()));
+>>>>>>> d99673c (rebase main)
 
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
@@ -83,7 +87,11 @@ public class FlightsView extends JFrame {
         if (isAllFlights) {
             return flightRepository.getAllFlights();
         } else {
+<<<<<<< HEAD
             return flightRepository.getFlightsByUUIDs(userAccount.getflightIdList());
+=======
+            return flightRepository.getFlightsByUUIDs(userAccount.getFlightIdList());
+>>>>>>> d99673c (rebase main)
         }
     }
 
