@@ -3,7 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
-
+interface LoginCallback {
+    void onLoginSuccess(String username, String password, boolean isAdmin);
+}
 public class LoginGUI extends JFrame {
     private JTextField usernameField;
     private JTextField passwordField;
@@ -13,9 +15,11 @@ public class LoginGUI extends JFrame {
     private JLabel passwordLabel;
 
     private AccountRepository accountRepository;
+    private LoginCallback loginCallback;
 
-    public LoginGUI() throws IOException, ParseException {
-        accountRepository = new AccountRepository("src/resources/users.csv");
+    public LoginGUI(AccountRepository accountRepository, LoginCallback loginCallback) throws IOException, ParseException {
+        this.accountRepository = accountRepository;
+        this.loginCallback = loginCallback;
 
         setTitle("Login Page");
         setSize(400, 300);
@@ -50,9 +54,11 @@ public class LoginGUI extends JFrame {
                 String password = passwordField.getText();
                 if (username.equals("admin") && password.equals("admin")) {
                     // new admin GUI
+                    loginCallback.onLoginSuccess(username, password, true); // Notify success
                 }
                 else if (accountRepository.login(username, password)) {
                     // new user GUI
+                    loginCallback.onLoginSuccess(username, password, false); // Notify success
                     JOptionPane.showMessageDialog(LoginGUI.this, "Login successful!");
                     dispose();
                 } else {

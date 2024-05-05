@@ -3,6 +3,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -15,13 +16,50 @@ public class FlightsView extends JFrame {
     private DefaultTableModel model;
     private UserAccount userAccount;
     private FlightRepository flightRepository;
-    private boolean isAllFlight;
+    private boolean isAllFlights;
 
-    public FlightsView(List<Flight> flights, UserAccount userAccount, FlightRepository flightRepository) {
+    public FlightsView(UserAccount userAccount, FlightRepository flightRepository) {
         this.userAccount = userAccount;
         this.flightRepository = flightRepository;
-        this.isAllFlight = true;
-        initializeUI(true);
+        this.isAllFlights = true;
+
+        String[] columnNames = {
+                "Flight ID", "Departure", "Arrival",
+                "From", "To", "Airline",
+                "Occupancy", "Remaining Tickets", "Action"};
+        model = new DefaultTableModel(columnNames, 0);
+        table = new JTable(model);
+        table.getColumnModel().getColumn(8).setCellRenderer(new ButtonRenderer());
+        table.getColumnModel().getColumn(8j).setCellEditor(new ButtonEditor(new JCheckBox()));
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
+
+        JPanel navigationPanel = new JPanel();
+        JButton viewAllFlightsButton = new JButton("View All Flights");
+        JButton viewMyFlightsButton = new JButton("View My Flights");
+        navigationPanel.add(viewAllFlightsButton);
+        navigationPanel.add(viewMyFlightsButton);
+        add(navigationPanel, BorderLayout.SOUTH);
+
+        viewAllFlightsButton.addActionListener((ActionEvent e) -> {
+            // Handle view all flights button action
+            // You can refresh the table with all flights here
+            this.isAllFlights = true;
+            refresh();
+            setTitle("All Flights");
+        });
+
+        viewMyFlightsButton.addActionListener((ActionEvent e) -> {
+            // Handle view my flights button action
+            // You can filter and refresh the table with flights booked by the user here
+            this.isAllFlights = false;
+            refresh();
+            setTitle("My Flights");
+        });
+
+        loadFlights(getFlights(), isAllFlights);
+
         // set up window attributes
         setTitle("All Flights");
         setSize(1000, 400);
@@ -42,69 +80,16 @@ public class FlightsView extends JFrame {
     }
 
     private List<Flight> getFlights() {
-        if (isAllFlight) {
+        if (isAllFlights) {
             return flightRepository.getAllFlights();
         } else {
-            return flightRepository.getFlightsByUUIDs(userAccount.getFlightList());
+            return flightRepository.getFlightsByUUIDs(userAccount.getflightIdList());
         }
     }
 
-    private void initializeUI(boolean isAllFlights) {
-        String[] columnNames = {
-                "Flight ID", "Departure", "Arrival",
-                "From", "To", "Airline",
-                "Occupancy", "Remaining Tickets", "Action"};
-        model = new DefaultTableModel(columnNames, 0) {
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                return columnIndex == 8 ? JButton.class : super.getColumnClass(columnIndex);
-            }
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 8;  // Only the button column is editable
-            }
-        };
-        table = new JTable(model);
-        table.setPreferredScrollableViewportSize(table.getPreferredSize());
-        table.setFillsViewportHeight(true);
-        table.getColumn("Action").setCellRenderer(new ButtonRenderer());
-
-        List<Flight> flights = getFlights();
-        table.getColumn("Action").setCellEditor(new ButtonEditor(new JCheckBox(), flights));
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER);
-
-        JPanel navigationPanel = new JPanel();
-        JButton viewAllFlightsButton = new JButton("View All Flights");
-        JButton viewMyFlightsButton = new JButton("View My Flights");
-        navigationPanel.add(viewAllFlightsButton);
-        navigationPanel.add(viewMyFlightsButton);
-        add(navigationPanel, BorderLayout.SOUTH);
-
-
-        viewAllFlightsButton.addActionListener((ActionEvent e) -> {
-            // Handle view all flights button action
-            // You can refresh the table with all flights here
-            this.isAllFlight = true;
-            refresh();
-            setTitle("All Flights");
-        });
-
-        viewMyFlightsButton.addActionListener((ActionEvent e) -> {
-            // Handle view my flights button action
-            // You can filter and refresh the table with flights booked by the user here
-            this.isAllFlight = false;
-            refresh();
-            setTitle("My Flights");
-        });
-
-        loadFlights(flights, isAllFlights);
-    }
-
     private void refresh() {
-        loadFlights(getFlights(), isAllFlight);
-        table.getColumn("Action").setCellEditor(new ButtonEditor(new JCheckBox(), getFlights()));
+        loadFlights(getFlights(), isAllFlights);
+        table.getColumn("Action").setCellEditor(new ButtonEditor(new JCheckBox()));
     }
 
     private void loadFlights(List<Flight> flights, boolean isAllFlights) {
@@ -126,6 +111,7 @@ public class FlightsView extends JFrame {
             };
             model.addRow(row);
         }
+
     }
 
     class ButtonRenderer extends JButton implements TableCellRenderer {
@@ -143,11 +129,9 @@ public class FlightsView extends JFrame {
         private JButton button;
         private String label;
         private boolean isPushed;
-        private List<Flight> flights;
 
-        public ButtonEditor(JCheckBox checkBox, List<Flight> flights) {
+        public ButtonEditor(JCheckBox checkBox) {
             super(checkBox);
-            this.flights = flights;
             button = new JButton();
             button.setOpaque(true);
             button.addActionListener((ActionEvent e) -> fireEditingStopped());
@@ -164,15 +148,15 @@ public class FlightsView extends JFrame {
             if (isPushed) {
                 // This is where you can place your booking logic
                 int rowIndex = table.convertRowIndexToModel(table.getEditingRow());
-                Flight flight = flights.get(rowIndex);
+                Flight flight = getFlights().get(rowIndex);
                 UUID flightId = flight.getFlightId();
-                if (isAllFlight) {
+                if (isAllFlights) {
                     userAccount.addFlight(flightId);
                     flightRepository.bookFlight(flightId);
                     JOptionPane.showMessageDialog(button, "Booking Flight: " + flightId);
                     refresh();
                 } else {
-                    userAccount.cancelFlight(flightId);
+                    userAccount.deleteFlight(flightId);
                     flightRepository.cancelFlight(flightId);
                     JOptionPane.showMessageDialog(button, "Cancel Flight: " + flightId);
                     refresh();
