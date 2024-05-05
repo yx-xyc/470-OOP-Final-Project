@@ -1,10 +1,10 @@
 public abstract class Account{
-	protected int id;
-	protected String name;
-	protected int age;
-	protected String email;
-	protected String username;
-	protected String password;
+	private int id;
+	private String name;
+	private int age;
+	private String email;
+	private String username;
+	private String password;
 
 	public Account(int id, String name, int age, String email, String username, String password) {
 		this.id = id;
