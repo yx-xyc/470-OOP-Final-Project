@@ -34,7 +34,7 @@ public class UserAccount extends Account implements Cloneable{
 
 	public String toCSVRow() {
 		if (flightIdList.isEmpty()){
-			return String.valueOf(id) + "," + name + "," + String.valueOf(age) + "," + email + "," + username + "," + password;
+			return String.valueOf(this.getId()) + "," + this.getName() + "," + String.valueOf(this.getAge()) + "," + this.getEmail() + "," + this.getUsername() + "," + this.getPassword();
 		}
 		else {
 			StringBuilder sb = new StringBuilder();
@@ -44,7 +44,7 @@ public class UserAccount extends Account implements Cloneable{
                 	sb.append(",");
             	}
         	}
-        	return String.valueOf(id) + "," + name + "," + String.valueOf(age) + "," + email + "," + username + "," + password + "," + sb.toString();
+        	return String.valueOf(this.getId()) + "," + this.getName() + "," + String.valueOf(this.getAge()) + "," + this.getEmail() + "," + this.getUsername() + "," + this.getPassword() + "," + sb.toString();
 		}
     }
 

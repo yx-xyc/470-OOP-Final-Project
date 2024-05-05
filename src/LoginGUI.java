@@ -1,6 +1,8 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 interface LoginCallback {
@@ -15,11 +17,12 @@ public class LoginGUI extends JFrame {
     private JLabel passwordLabel;
 
     private AccountRepository accountRepository;
+    private FlightRepository flightRepository;
     private LoginCallback loginCallback;
 
-    public LoginGUI(AccountRepository accountRepository, LoginCallback loginCallback) throws IOException, ParseException {
+    public LoginGUI(AccountRepository accountRepository, FlightRepository flightRepository) throws IOException, ParseException {
         this.accountRepository = accountRepository;
-        this.loginCallback = loginCallback;
+        this.flightRepository = flightRepository;
 
         setTitle("Login Page");
         setSize(400, 300);
@@ -54,13 +57,15 @@ public class LoginGUI extends JFrame {
                 String password = passwordField.getText();
                 if (username.equals("admin") && password.equals("admin")) {
                     // new admin GUI
-                    loginCallback.onLoginSuccess(username, password, true); // Notify success
+                    LoginGUI.openFileWithDefaultApplication("src/resources/flights.csv");
+                    System.exit(0);
                     dispose();
                 }
                 else if (accountRepository.login(username, password)) {
                     // new user GUI
-                    loginCallback.onLoginSuccess(username, password, false); // Notify success
                     JOptionPane.showMessageDialog(LoginGUI.this, "Login successful!");
+                    UserAccount userAccount = accountRepository.getUserAccount(username, password);
+                    FlightsGUI flightsGUI = new FlightsGUI(userAccount.getId(), flightRepository, accountRepository);
                     dispose();
                 } else {
                     messageLabel.setText("Wrong username or password");
@@ -68,5 +73,18 @@ public class LoginGUI extends JFrame {
                 }
             }
         });
+    }
+    public static void openFileWithDefaultApplication(String filePath) {
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                File file = new File(filePath);
+                desktop.open(file);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Failed to open file: " + filePath, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Desktop is not supported on this platform.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
